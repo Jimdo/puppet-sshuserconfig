@@ -29,7 +29,7 @@ Testing
 Everything you need to know about testing this module is explained in
 `TESTING.md`.
 
-[![Build Status](https://travis-ci.org/Jimdo/puppet-ssh-userconfig.png?branch=master)](https://travis-ci.org/Jimdo/puppet-ssh-userconfig)
+[![Build Status](https://travis-ci.org/Jimdo/puppet-sshuserconfig.png?branch=master)](https://travis-ci.org/Jimdo/puppet-sshuserconfig)
 
 License and Author
 ------------------
