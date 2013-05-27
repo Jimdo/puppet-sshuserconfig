@@ -8,6 +8,11 @@ like this:
 
 http://blog.firmhouse.com/configuring-multiple-private-ssh-deploy-keys-in-jenkins-for-github-com
 
+If you have several private repos in github.com and you want to have a privilege seperation (no global read-only user for all repositories),
+you can easily add a separate keypair per node/node role/profile like this:
+
+XXX doc
+
 Requirements
 ------------
 
