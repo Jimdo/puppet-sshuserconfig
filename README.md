@@ -1,13 +1,12 @@
-Skeleton Puppet Module
-======================
+SSH Userconfig Puppet Module
+============================
 
-This is a testable Puppet module designed for you or your organization to fork
-and modify appropriately. The module comes with everything you need to develop
-infrastructure code with Puppet and feel confident about it. See file
-`TESTING.md` to learn more.
+This module configures a sane configurable ~/.ssh/config for several users.
 
-(While you're encouraged to customize everything in this module to fit your
-needs, I recommend keeping the `TESTING.md` file as-is.)
+The main goal is to have Host aliases with different ssh keypairs working
+like this:
+
+http://blog.firmhouse.com/configuring-multiple-private-ssh-deploy-keys-in-jenkins-for-github-com
 
 Requirements
 ------------
