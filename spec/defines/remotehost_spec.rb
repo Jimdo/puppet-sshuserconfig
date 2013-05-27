@@ -54,8 +54,7 @@ describe 'ssh-userconfig::remotehost' do
           :ensure   => 'present',
           :content  => content,
           :owner    => some_unix_user,
-          :mode     => '600',
-          :require  => "File[#{ssh_config_dir_prefix}]"
+          :mode     => '600'
         })
     end
   end

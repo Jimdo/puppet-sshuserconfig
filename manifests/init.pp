@@ -8,10 +8,4 @@ define ssh-userconfig() {
     owner => $unix_user
   }
 
-  file { $ssh_config_dir_prefix :
-    ensure  => directory,
-    owner   => $unix_user,
-    mode    => 700
-  }
-
 }

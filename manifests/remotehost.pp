@@ -29,16 +29,14 @@ define ssh-userconfig::remotehost(
     ensure  => present,
     content => $private_key_content,
     owner   => $unix_user,
-    mode    => 600,
-    require => File[$ssh_config_dir_prefix]
+    mode    => 600
   }
 
   file { $synthesized_pubkey_path :
     ensure  => present,
     content => $public_key_content,
     owner   => $unix_user,
-    mode    => 600,
-    require => File[$ssh_config_dir_prefix]
+    mode    => 600
   }
 
 }

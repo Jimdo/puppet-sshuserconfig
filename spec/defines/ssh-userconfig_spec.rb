@@ -18,15 +18,6 @@ describe 'ssh-userconfig' do
       .with({
         :owner => some_unix_user,
       })
-end
- 
-  it 'should create the .ssh folder for the given unix user' do
-    should contain_file(ssh_config_dir_prefix) \
-      .with ({
-        :ensure => 'directory',
-        :owner  => some_unix_user,
-        :mode   => '700'
-      })
   end
 
 end
