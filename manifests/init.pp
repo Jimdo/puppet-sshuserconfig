@@ -1,4 +1,4 @@
-define ssh-userconfig() {
+define sshuserconfig() {
 
   $unix_user = $title
   $ssh_config_dir_prefix ="/home/${unix_user}/.ssh"

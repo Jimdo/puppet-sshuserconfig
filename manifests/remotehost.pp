@@ -1,10 +1,10 @@
-define ssh-userconfig::remotehost(
+define sshuserconfig::remotehost(
   $unix_user,
   $remote_hostname,
   $remote_username,
   $private_key_content,
   $public_key_content,
-  $remote_port = 22,
+  $remote_port = 22
 ) {
 
   $ssh_config_dir_prefix ="/home/${unix_user}/.ssh" 

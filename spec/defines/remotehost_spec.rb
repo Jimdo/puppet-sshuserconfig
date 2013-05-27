@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ssh-userconfig::remotehost' do
+describe 'sshuserconfig::remotehost' do
   some_unix_user = 'unixuser'
   some_host = 'github.com'
   default_port = '22'

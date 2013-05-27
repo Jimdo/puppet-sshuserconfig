@@ -2,8 +2,8 @@
 # Use it to set up integration tests for this Puppet module.
 
 # Test the module
-ssh-userconfig { 'vagrant' : }
-ssh-userconfig::remotehost { 'someidentifier' :
+sshuserconfig { 'vagrant' : }
+sshuserconfig::remotehost { 'someidentifier' :
   unix_user           => 'vagrant',
   remote_hostname     => 'github.com',
   remote_username     => 'git',
@@ -11,7 +11,7 @@ ssh-userconfig::remotehost { 'someidentifier' :
   public_key_content  => "some pubkey content\n"
 }
 
-ssh-userconfig::remotehost { 'someidentifier2' :
+sshuserconfig::remotehost { 'someidentifier2' :
   unix_user           => 'vagrant',
   remote_hostname     => 'github.com',
   remote_username     => 'git',

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ssh-userconfig' do
+describe 'sshuserconfig' do
 
   some_unix_user = 'unixuser'
 
