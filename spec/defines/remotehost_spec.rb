@@ -65,4 +65,15 @@ describe 'sshuserconfig::remotehost' do
       .with_content(%r{^\s+Port 2022$})
   end
 
+  context 'with special ssh configured ssh directory' do
+    ssh_config_dir_prefix = "/some/special/path/.ssh"
+
+    it 'should accept a special homedir' do
+      params[:ssh_config_dir] = ssh_config_dir_prefix
+      ssh_config_file = "#{ssh_config_dir_prefix}/config"
+      should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
+        .with_target(ssh_config_file)
+    end
+  end
+
 end

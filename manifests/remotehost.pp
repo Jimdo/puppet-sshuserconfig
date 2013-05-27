@@ -4,10 +4,16 @@ define sshuserconfig::remotehost(
   $remote_username,
   $private_key_content,
   $public_key_content,
-  $remote_port = 22
+  $remote_port = 22,
+  $ssh_config_dir = undef
 ) {
 
-  $ssh_config_dir_prefix ="/home/${unix_user}/.ssh" 
+  if $ssh_config_dir == undef {
+    $ssh_config_dir_prefix = "/home/${unix_user}/.ssh"
+  } else {
+    $ssh_config_dir_prefix = $ssh_config_dir
+  }
+
   $ssh_config_file = "${ssh_config_dir_prefix}/config"
 
   $concat_namespace = "ssh_userconfig_${unix_user}"
