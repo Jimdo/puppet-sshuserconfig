@@ -29,12 +29,14 @@ Testing
 Everything you need to know about testing this module is explained in
 `TESTING.md`.
 
-[![Build Status](https://travis-ci.org/Jimdo/puppet-skeleton.png?branch=master)](https://travis-ci.org/Jimdo/puppet-skeleton)
+[![Build Status](https://travis-ci.org/Jimdo/puppet-ssh-userconfig.png?branch=master)](https://travis-ci.org/Jimdo/puppet-ssh-userconfig)
 
 License and Author
 ------------------
 
-Author:: Mathias Lafeldt (<mathias.lafeldt@gmail.com>)
+Author:
+ * Ole Michaelis    (Ole.Michaelis@googlemail.com)
+ * Soenke Ruempler  (soenke@ruempler.eu)
 
 Copyright:: 2013, Jimdo GmbH
 

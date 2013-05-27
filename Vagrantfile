@@ -3,7 +3,7 @@
 Vagrant::Config.run do |config|
   config.vm.box = 'jimdo-debian-6.0.7'
   config.vm.box_url = 'https://jimdo-vagrant-boxes.s3.amazonaws.com/jimdo-debian-6.0.7.box'
-  config.vm.host_name = 'skeleton-debian'
+  config.vm.host_name = 'puppet-ssh-userconfig'
 
   config.vm.provision :puppet do |puppet|
     puppet.module_path    = ENV.fetch('MODULES_PATH', nil)

@@ -30,18 +30,12 @@ describe 'ssh-userconfig::remotehost' do
   }
 
   it 'should create a host config for a given unix user => hostalias/host/user/port/privkey/pubkey/' do
-
-    should contain_concat(ssh_config_file) \
-      .with({
-        :owner => some_unix_user,
-      })
-
     should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
       .with_content(%r{Host #{some_hostalias}
   HostName #{some_host}
   Port #{default_port}
   User #{some_git_remote_user}
-  IdentityFile #{synthesized_privkey_path}}u)\
+  IdentityFile #{synthesized_privkey_path}\n\n}u)\
       .with_target(ssh_config_file)
   end
 
@@ -64,15 +58,6 @@ describe 'ssh-userconfig::remotehost' do
           :require  => "File[#{ssh_config_dir_prefix}]"
         })
     end
-  end
-
-  it 'should create the .ssh folder for the given unix user' do
-    should contain_file(ssh_config_dir_prefix) \
-      .with ({
-        :ensure => 'directory',
-        :owner  => some_unix_user,
-        :mode   => '700'
-      })
   end
 
   it 'should have a configurable port' do

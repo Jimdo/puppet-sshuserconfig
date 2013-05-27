@@ -1,12 +1,20 @@
 # This manifest is the entry point for `rake test:integration`.
 # Use it to set up integration tests for this Puppet module.
 
-# Update Debian package index before doing anything else
-class apt_get_update {
-  exec { '/usr/bin/apt-get -y update': }
-}
-stage { 'pre': before => Stage['main'] }
-class { 'apt_get_update': stage => 'pre' }
-
 # Test the module
-include skeleton
+ssh-userconfig { 'vagrant' : }
+ssh-userconfig::remotehost { 'someidentifier' :
+  unix_user           => 'vagrant',
+  remote_hostname     => 'github.com',
+  remote_username     => 'git',
+  private_key_content => "some privkey content\n",
+  public_key_content  => "some pubkey content\n"
+}
+
+ssh-userconfig::remotehost { 'someidentifier2' :
+  unix_user           => 'vagrant',
+  remote_hostname     => 'github.com',
+  remote_username     => 'git',
+  private_key_content => "some privkey content2\n",
+  public_key_content  => "some pubkey content2\n"
+}

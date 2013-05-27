@@ -16,23 +16,13 @@ define ssh-userconfig::remotehost(
   $synthesized_privkey_path = "${ssh_config_dir_prefix}/id_rsa_${title}"
   $synthesized_pubkey_path = "${ssh_config_dir_prefix}/id_rsa_${title}.pub"
 
-  concat { $ssh_config_file :
-    owner => $unix_user
-  }
-  
   concat::fragment { $fragment_name :
     target => $ssh_config_file,
     content => "Host ${title}
   HostName ${remote_hostname}
   Port ${remote_port}
   User ${remote_username}
-  IdentityFile ${synthesized_privkey_path}"
-  }
-
-  file { $ssh_config_dir_prefix :
-    ensure  => directory,
-    owner   => $unix_user,
-    mode    => 700
+  IdentityFile ${synthesized_privkey_path}\n\n"
   }
 
   file { $synthesized_privkey_path :
