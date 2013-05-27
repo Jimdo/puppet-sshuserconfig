@@ -1,4 +1,6 @@
-describe 'gitremote::remotehost'
+require 'spec_helper'
+
+describe 'gitremote::remotehost' do
   it 'should create a host config for a given unix user => hostalias/host/user/port/privkey/pubkey/' do
     some_unix_user = 'unixuser'
     some_host = 'hostalias.com'
@@ -16,6 +18,8 @@ describe 'gitremote::remotehost'
   Port #{some_port}
   User #{some_git_remote_user}
   IdentityFile #{some_private_key_file_path}}u)
+
+  end
 
   it 'should create the pubkey/privkey files for a given unix user => hostalias/host/user/port/privkey/pubkey key' do
     should include_file("/home/#{some_unix_user}/.ssh/id_rsa_#{some_hostalias}").with_content(some_private_key_content)
