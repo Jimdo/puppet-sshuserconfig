@@ -37,6 +37,7 @@ License and Author
 Author:
  * Ole Michaelis    (Ole.Michaelis@googlemail.com)
  * Soenke Ruempler  (soenke@ruempler.eu)
+ * Mathias Lafeldt  (mathias.lafeldt@gmail.com)
 
 Copyright:: 2013, Jimdo GmbH
 
