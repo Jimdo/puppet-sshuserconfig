@@ -41,7 +41,7 @@ The module provides a couple of helpful [Rake] tasks (specified in `Rakefile`):
     rake clean                      # Remove any temporary products.
     rake clobber                    # Remove any generated file.
     rake test:all                   # Run test:lint, test:spec, and test:integration
-    rake test:integration           # Run integration tests with Vagrant
+    rake test:integration           # Run serverspec integration tests with Vagrant
     rake test:integration_teardown  # Tear down VM used for integration tests
     rake test:lint                  # Check manifests with puppet-lint
     rake test:spec                  # Run RSpec examples
@@ -66,6 +66,24 @@ module.
 
 The Rake task `test:spec` will run all RSpec examples in the `spec` directory.
 The specs utilize [rspec-puppet].
+
+### serverspec
+
+The Rake task `test:integration` will run [serverspec] integration tests against
+a VM managed by Vagrant. The manifest `test/integration/site.pp` is the entry
+point for integration testing, while `spec/integration/**/*_spec.rb` are the
+actual test files that are run at the end of the provisioning process by ssh'ing
+into the VM. For each VM you want to test, there must be a folder with specs in
+`spec/integration/` (the default node specs are in `spec/integration/default`).
+
+In case the VM is powered off, `rake test:integration` will boot it up first.
+When you no longer need the VM for integration testing, `rake
+test:integration_teardown` will shut it down. If you rather want to provision
+from scratch, set `INTEGRATION_TEARDOWN` accordingly. For example:
+
+    $ export INTEGRATION_TEARDOWN='vagrant destroy -f'
+    $ rake test:integration_teardown
+    $ rake test:integration
 
 ### Vagrant
 
@@ -102,3 +120,4 @@ in `.travis.yml`.
 [Vagrant]: http://vagrantup.com
 [puppet-lint]: http://puppet-lint.com/
 [rspec-puppet]: http://rspec-puppet.com/
+[serverspec]: http://serverspec.org/

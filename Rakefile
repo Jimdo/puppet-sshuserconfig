@@ -85,9 +85,11 @@ namespace :test do
   end
   task :spec => [:prepare_modules, :prepare_manifests_for_rspec]
 
-  # TODO test:integration is currently the same as vagrant:provision; planning
-  # to execute some actual tests at the end of the configuration run here
-  desc 'Run integration tests with Vagrant'
+  desc 'Run serverspec integration tests with Vagrant'
+  RSpec::Core::RakeTask.new(:integration) do |t|
+    t.pattern = 'spec/integration/**/*_spec.rb'
+    t.rspec_opts = '--color --format documentation'
+  end
   task :integration => 'vagrant:provision'
 
   desc 'Tear down VM used for integration tests'

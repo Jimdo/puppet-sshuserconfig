@@ -3,6 +3,7 @@ GEM
   specs:
     diff-lcs (1.2.4)
     facter (1.7.1)
+    highline (1.6.19)
     json (1.8.0)
     librarian-puppet (0.9.9)
       json
@@ -10,6 +11,7 @@ GEM
     metaclass (0.0.1)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
+    net-ssh (2.6.7)
     puppet (2.7.21)
       facter (~> 1.5)
     puppet-lint (0.3.2)
@@ -29,6 +31,10 @@ GEM
     rspec-mocks (2.13.1)
     rspec-puppet (0.1.6)
       rspec
+    serverspec (0.4.12)
+      highline
+      net-ssh
+      rspec (~> 2.0)
     thor (0.18.1)
 
 PLATFORMS
@@ -41,3 +47,4 @@ DEPENDENCIES
   puppetlabs_spec_helper (~> 0.4)
   rake
   rspec-puppet (~> 0.1)
+  serverspec (~> 0.4)
