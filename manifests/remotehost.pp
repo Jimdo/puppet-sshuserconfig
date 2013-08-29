@@ -28,9 +28,6 @@ define sshuserconfig::remotehost(
     content => template('sshuserconfig/fragment.erb')
   }
 
-  if $connect_timeout {
-  }
-
   file { $synthesized_privkey_path :
     ensure  => present,
     content => $private_key_content,
