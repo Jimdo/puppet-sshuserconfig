@@ -5,7 +5,8 @@ define sshuserconfig::remotehost(
   $private_key_content,
   $public_key_content,
   $remote_port = 22,
-  $ssh_config_dir = undef
+  $ssh_config_dir = undef,
+  $connect_timeout = undef
 ) {
 
   if $ssh_config_dir == undef {
@@ -24,11 +25,7 @@ define sshuserconfig::remotehost(
 
   concat::fragment { $fragment_name :
     target => $ssh_config_file,
-    content => "Host ${title}
-  HostName ${remote_hostname}
-  Port ${remote_port}
-  User ${remote_username}
-  IdentityFile ${synthesized_privkey_path}\n\n"
+    content => template('sshuserconfig/fragment.erb')
   }
 
   file { $synthesized_privkey_path :
