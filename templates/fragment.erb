@@ -1,0 +1,8 @@
+Host <%= @title %>
+  HostName <%= @remote_hostname %>
+  Port <%= @remote_port %>
+  User <%= @remote_username %>
+  IdentityFile <%= @synthesized_privkey_path %>
+<% if @connect_timeout %>
+  ConnectTimeout <%=  @connect_timeout %>
+<% end %>
