@@ -20,5 +20,6 @@ sshuserconfig::remotehost { 'someidentifier2' :
   remote_username     => 'git',
   private_key_content => "some privkey content2\n",
   public_key_content  => "some pubkey content2\n",
-  ssh_config_dir      => '/tmp'
+  ssh_config_dir      => '/tmp',
+  connect_timeout     => 10
 }
