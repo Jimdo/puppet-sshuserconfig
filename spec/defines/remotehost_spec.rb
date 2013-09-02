@@ -76,4 +76,12 @@ describe 'sshuserconfig::remotehost' do
     end
   end
 
+  context 'with connect timeout set' do
+    it 'should have ssh connection timeout set to 10 seconds' do
+      params[:connect_timeout] = 10
+      should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
+        .with_content(%r{^  ConnectTimeout 10$\n\n}u)
+    end
+  end
+
 end
