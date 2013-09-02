@@ -48,6 +48,7 @@ Host someidentifier2
   Port 22
   User git
   IdentityFile /tmp/id_rsa_someidentifier2
+  ConnectTimeout 10
 
 EOS
 }
