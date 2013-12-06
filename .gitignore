@@ -11,3 +11,4 @@
 
 # Vagrant
 .vagrant
+.ruby-version
