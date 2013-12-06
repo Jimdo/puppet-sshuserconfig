@@ -41,21 +41,6 @@ describe 'sshuserconfig::remotehost' do
 
       let(:ssh_config_file) {"#{ssh_config_dir_prefix}/config" }
 
-      if count == 2 then
-        let (:pre_condition) {
-<<-EOF
-sshuserconfig::remotehost { #{some_other_hostalias} :
-  unix_user           => '#{some_unix_user}',
-  remote_hostname     => 'some.other.remotehost.tld',
-  remote_username     => '#{some_git_remote_user}',
-  private_key_content => '#{some_other_private_key_content}',
-  public_key_content  => '#{some_other_public_key_content}',
-  ssh_config_dir      => '/tmp',
-}
-EOF
-        }
-      end
-
       it 'should initialize concat for a given unix user' do
         ssh_config_dir_prefix = "/home/#{some_unix_user}/.ssh"
         ssh_config_file = "#{ssh_config_dir_prefix}/config"
@@ -83,6 +68,18 @@ EOF
           :host_alias          => some_other_hostalias,
           :private_key_content => some_other_private_key_content,
           :public_key_content  => some_other_public_key_content,
+        }
+
+        let (:pre_condition) {
+<<-EOF
+sshuserconfig::remotehost { #{some_other_hostalias} :
+  unix_user           => '#{some_unix_user}',
+  remote_hostname     => 'some.other.remotehost.tld',
+  remote_username     => '#{some_git_remote_user}',
+  private_key_content => '#{some_other_private_key_content}',
+  public_key_content  => '#{some_other_public_key_content}',
+}
+EOF
         }
       end
 
@@ -123,31 +120,37 @@ EOF
             end
           end
 
-          it 'should have a configurable port' do
-            params[:remote_port] = 2022
-            should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
-              .with_content(%r{^\s+Port 2022$})
-          end
+          # testing it with one defined remotehost is considered
+          # sufficient
+          if count == 1 then
 
-          context 'with special ssh configured ssh directory' do
-
-            let(:ssh_config_dir_prefix) { "/some/special/path/.ssh" }
-
-            it 'should accept a special homedir' do
-              params[:ssh_config_dir] = ssh_config_dir_prefix
-              ssh_config_file = "#{ssh_config_dir_prefix}/config"
+            it 'should have a configurable port' do
+              params[:remote_port] = 2022
               should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
-                .with_target(ssh_config_file)
+                .with_content(%r{^\s+Port 2022$})
+            end
+
+            context 'with special ssh configured ssh directory' do
+
+              let(:ssh_config_dir_prefix) { "/some/special/path/.ssh" }
+
+              it 'should accept a special homedir' do
+                params[:ssh_config_dir] = ssh_config_dir_prefix
+                ssh_config_file = "#{ssh_config_dir_prefix}/config"
+                should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
+                  .with_target(ssh_config_file)
+              end
+            end
+
+            context 'with connect timeout set' do
+              it 'should have ssh connection timeout set to 10 seconds' do
+                params[:connect_timeout] = 10
+                should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
+                  .with_content(%r{^  ConnectTimeout 10$\n\n}u)
+              end
             end
           end
 
-          context 'with connect timeout set' do
-            it 'should have ssh connection timeout set to 10 seconds' do
-              params[:connect_timeout] = 10
-              should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
-                .with_content(%r{^  ConnectTimeout 10$\n\n}u)
-            end
-          end
         end
       end
     end
