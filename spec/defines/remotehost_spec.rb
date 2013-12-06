@@ -29,6 +29,28 @@ describe 'sshuserconfig::remotehost' do
     }
   }
 
+  it 'should initialize concat for a given unix user' do
+    ssh_config_dir_prefix = "/home/#{some_unix_user}/.ssh"
+    ssh_config_file = "#{ssh_config_dir_prefix}/config"
+
+    should contain_concat(ssh_config_file) \
+      .with({
+        :owner => some_unix_user,
+      })
+  end
+
+  context 'with special ssh configured ssh directory' do
+    ssh_config_dir_prefix = "/some/special/path/.ssh"
+    let (:params) { super().merge({
+        :ssh_config_dir => ssh_config_dir_prefix
+    })}
+
+    it 'should accept a special homedir' do
+      ssh_config_file = "#{ssh_config_dir_prefix}/config"
+      should contain_concat(ssh_config_file)
+    end
+  end
+
   it 'should create a host config for a given unix user => hostalias/host/user/port/privkey/pubkey/' do
     should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
       .with_content(%r{Host #{some_hostalias}

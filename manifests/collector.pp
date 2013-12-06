@@ -1,0 +1,3 @@
+class sshuserconfig::collector {
+  Sshuserconfig <| |>
+}
