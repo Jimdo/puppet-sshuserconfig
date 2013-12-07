@@ -14,7 +14,7 @@ you can easily add a separate keypair per node/node role/profile like this:
 Usage
 -----
 
-Currently, only adding remote hosts to a ssh user config is supported.
+Currently, only inserting remote hosts to a ssh user config is supported.
 
 This done like this:
 
@@ -37,6 +37,8 @@ sshuserconfig::remotehost { 'github_for_awesome_repo2' :
   public_key_content  => "some pubkey content2\n",
 }
 ```
+
+This generate a `~/.ssh/config` file with two SSH `Host`' directives.
 
 Now you can use a git-remote like this (as user 'jenkins'):
 
