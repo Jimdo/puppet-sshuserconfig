@@ -35,6 +35,33 @@ describe 'sshuserconfig::remotehost' do
     }
   }
 
+
+  it 'should have a configurable port' do
+    params[:remote_port] = 2022
+    should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
+      .with_content(%r{^\s+Port 2022$})
+  end
+
+  context 'with special ssh configured ssh directory' do
+
+    let(:ssh_config_dir_prefix) { "/some/special/path/.ssh" }
+
+    it 'should accept a special homedir' do
+      params[:ssh_config_dir] = ssh_config_dir_prefix
+      ssh_config_file = "#{ssh_config_dir_prefix}/config"
+      should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
+        .with_target(ssh_config_file)
+    end
+  end
+
+  context 'with connect timeout set' do
+    it 'should have ssh connection timeout set to 10 seconds' do
+      params[:connect_timeout] = 10
+      should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
+        .with_content(%r{^  ConnectTimeout 10$\n\n}u)
+    end
+  end
+
   (1..2).each do |count|
 
     context "with #{count} defined sshuserconfig directives for the same unix user" do
@@ -119,38 +146,6 @@ EOF
                 })
             end
           end
-
-          # testing it with one defined remotehost is considered
-          # sufficient
-          if count == 1 then
-
-            it 'should have a configurable port' do
-              params[:remote_port] = 2022
-              should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
-                .with_content(%r{^\s+Port 2022$})
-            end
-
-            context 'with special ssh configured ssh directory' do
-
-              let(:ssh_config_dir_prefix) { "/some/special/path/.ssh" }
-
-              it 'should accept a special homedir' do
-                params[:ssh_config_dir] = ssh_config_dir_prefix
-                ssh_config_file = "#{ssh_config_dir_prefix}/config"
-                should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
-                  .with_target(ssh_config_file)
-              end
-            end
-
-            context 'with connect timeout set' do
-              it 'should have ssh connection timeout set to 10 seconds' do
-                params[:connect_timeout] = 10
-                should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{test_data[:host_alias]}")\
-                  .with_content(%r{^  ConnectTimeout 10$\n\n}u)
-              end
-            end
-          end
-
         end
       end
     end
