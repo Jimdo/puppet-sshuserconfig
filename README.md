@@ -11,7 +11,42 @@ http://blog.firmhouse.com/configuring-multiple-private-ssh-deploy-keys-in-jenkin
 If you have several private repos in github.com and you want to have a privilege seperation (no global read-only user for all repositories),
 you can easily add a separate keypair per node/node role/profile like this:
 
-XXX doc
+Usage
+-----
+
+Currently, only inserting remote hosts to a ssh user config is supported.
+
+This done like this:
+
+```
+# first remote host: github.com
+sshuserconfig::remotehost { 'github_for_awesome_repo1' :
+  unix_user           => 'jenkins',
+  remote_hostname     => 'github.com',
+  remote_username     => 'git',
+  private_key_content => "some privkey content\n",
+  public_key_content  => "some pubkey content\n",
+}
+
+# second remote host: github.com with a another key
+sshuserconfig::remotehost { 'github_for_awesome_repo2' :
+  unix_user           => 'jenkins',
+  remote_hostname     => 'bitbucket.com',
+  remote_username     => 'git',
+  private_key_content => "some privkey content2\n",
+  public_key_content  => "some pubkey content2\n",
+}
+```
+
+This generate a `~/.ssh/config` file with two SSH `Host`' directives.
+
+Now you can use a git-remote like this (as user 'jenkins'):
+
+```
+$ git clone git@github_for_awesome_repo1:s0enke/some_repo
+$ git clone git@github_for_awesome_repo2:s0enke/some_repo_with_other_ssh_key
+
+```
 
 Requirements
 ------------

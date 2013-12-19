@@ -2,9 +2,6 @@
 # Use it to set up integration tests for this Puppet module.
 
 # Test the module
-sshuserconfig { 'vagrant' :
-  ssh_config_dir => '/tmp'
-}
 sshuserconfig::remotehost { 'someidentifier' :
   unix_user           => 'vagrant',
   remote_hostname     => 'github.com',
