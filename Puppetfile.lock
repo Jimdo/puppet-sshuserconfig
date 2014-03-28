@@ -1,10 +1,10 @@
 FORGE
   remote: http://forge.puppetlabs.com
   specs:
-    puppetlabs/stdlib (4.1.0)
+    puppetlabs/stdlib (3.2.1)
     ripienaar/concat (0.2.0)
 
 DEPENDENCIES
-  puppetlabs/stdlib (>= 0)
+  puppetlabs/stdlib (>= 3.2)
   ripienaar/concat (>= 0)
 
