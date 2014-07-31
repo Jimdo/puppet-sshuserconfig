@@ -35,6 +35,10 @@ describe 'sshuserconfig::remotehost' do
     }
   }
 
+  it 'should only use the given IdentityFile' do
+    should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
+      .with_content(%r{^\s+IdentitiesOnly yes$})
+  end
 
   it 'should have a configurable port' do
     params[:remote_port] = 2022
@@ -123,7 +127,8 @@ EOF
   HostName #{test_data[:remote_host]}
   Port #{default_port}
   User #{some_git_remote_user}
-  IdentityFile #{synthesized_privkey_path}\n\n}u)\
+  IdentityFile #{synthesized_privkey_path}
+  IdentitiesOnly yes\n\n}u)\
               .with_target(ssh_config_file)
           end
 
