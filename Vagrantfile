@@ -5,10 +5,8 @@ Vagrant::Config.run do |config|
   config.vm.box_url = 'https://jimdo-vagrant-boxes.s3.amazonaws.com/jimdo-debian-6.0.7.box'
   config.vm.host_name = 'squeeze-sshuserconfig'
 
-  config.vm.provision :shell, :privileged => false do |s|
-    s.path = 'puppet-installer.sh'
-    s.args = ['squeeze', '3.7.0-1puppetlabs1']
-  end
+  puppet_version = "3.7.0-1puppetlabs1"
+  config.vm.provision :shell, :inline => "curl -Ls https://raw.githubusercontent.com/Jimdo/puppet-installer/master/install.sh | bash -s -- -v #{puppet_version}"
 
   config.vm.provision :puppet do |puppet|
     puppet.module_path    = ENV.fetch('MODULES_PATH', nil)
