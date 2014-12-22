@@ -24,14 +24,14 @@ define sshuserconfig::remotehost(
   $synthesized_pubkey_path = "${ssh_config_dir_prefix}/id_rsa_${title}.pub"
 
   file { $synthesized_privkey_path :
-    ensure  => present,
+    ensure  => 'present',
     content => $private_key_content,
     owner   => $unix_user,
     mode    => '0600',
   }
 
   file { $synthesized_pubkey_path :
-    ensure  => present,
+    ensure  => 'present',
     content => $public_key_content,
     owner   => $unix_user,
     mode    => '0600',
