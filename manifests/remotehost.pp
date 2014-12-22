@@ -46,7 +46,7 @@ define sshuserconfig::remotehost(
   )
 
   concat::fragment { $fragment_name :
-    target => $ssh_config_file,
+    target  => $ssh_config_file,
     content => template('sshuserconfig/fragment.erb')
   }
 }
