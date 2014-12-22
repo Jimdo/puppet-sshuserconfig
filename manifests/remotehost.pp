@@ -27,14 +27,14 @@ define sshuserconfig::remotehost(
     ensure  => present,
     content => $private_key_content,
     owner   => $unix_user,
-    mode    => 600
+    mode    => '0600',
   }
 
   file { $synthesized_pubkey_path :
     ensure  => present,
     content => $public_key_content,
     owner   => $unix_user,
-    mode    => 600
+    mode    => '0600',
   }
 
   ensure_resource(
