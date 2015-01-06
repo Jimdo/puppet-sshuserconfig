@@ -24,17 +24,17 @@ define sshuserconfig::remotehost(
   $synthesized_pubkey_path = "${ssh_config_dir_prefix}/id_rsa_${title}.pub"
 
   file { $synthesized_privkey_path :
-    ensure  => present,
+    ensure  => 'present',
     content => $private_key_content,
     owner   => $unix_user,
-    mode    => 600
+    mode    => '0600',
   }
 
   file { $synthesized_pubkey_path :
-    ensure  => present,
+    ensure  => 'present',
     content => $public_key_content,
     owner   => $unix_user,
-    mode    => 600
+    mode    => '0600',
   }
 
   ensure_resource(
@@ -46,7 +46,7 @@ define sshuserconfig::remotehost(
   )
 
   concat::fragment { $fragment_name :
-    target => $ssh_config_file,
+    target  => $ssh_config_file,
     content => template('sshuserconfig/fragment.erb')
   }
 }

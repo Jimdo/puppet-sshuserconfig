@@ -147,7 +147,7 @@ EOF
                   :ensure   => 'present',
                   :content  => content,
                   :owner    => some_unix_user,
-                  :mode     => '600'
+                  :mode     => '0600'
                 })
             end
           end
