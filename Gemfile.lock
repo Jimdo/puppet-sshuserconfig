@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/rodjek/rspec-puppet.git
+  revision: 7ab588ecdd1eb1bc7e05204898ee3abf45e42f9b
+  specs:
+    rspec-puppet (2.3.0)
+      rspec
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -46,8 +53,6 @@ GEM
       rspec-support (~> 3.1.0)
     rspec-mocks (3.1.0)
       rspec-support (~> 3.1.0)
-    rspec-puppet (1.0.1)
-      rspec
     rspec-support (3.1.0)
     serverspec (0.15.4)
       highline
@@ -67,5 +72,5 @@ DEPENDENCIES
   puppetlabs_spec_helper
   rake (~> 10)
   rspec (~> 3)
-  rspec-puppet
+  rspec-puppet!
   serverspec
