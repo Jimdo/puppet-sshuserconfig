@@ -27,21 +27,21 @@ define sshuserconfig::remotehost(
   $synthesized_privkey_path = "${ssh_config_dir_prefix}/id_rsa_${title}"
   $synthesized_pubkey_path = "${ssh_config_dir_prefix}/id_rsa_${title}.pub"
 
+  $config_options = {
+    'ConnectTimeout' => $connect_timeout,
+    'Port'           => $remote_port,
+    'User'           => $remote_username,
+    'HostName'       => $remote_hostname,
+    'IdentityFile'   => $synthesized_privkey_path,
   }
 
+  sshuserconfig::config { $name:
+    ensure         => $ensure,
+    user           => $unix_user,
+    host           => $title,
+    options        => $config_options,
+    ssh_config_dir => $ssh_config_dir,
   }
-
-  ensure_resource(
-    'concat',
-    $ssh_config_file,
-    {
-      owner => $unix_user
-    }
-  )
-
-  concat::fragment { $fragment_name :
-    target  => $ssh_config_file,
-    content => template('sshuserconfig/fragment.erb')
   sshuserconfig::key { $name:
     ensure              => $ensure,
     user                => $unix_user,
