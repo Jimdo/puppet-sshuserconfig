@@ -27,11 +27,11 @@ describe 'sshuserconfig::remotehost' do
   let (:title) { some_hostalias }
   let (:params) {
     {
-      :unix_user => some_unix_user,
-      :remote_hostname => some_host,
-      :remote_username => some_git_remote_user,
+      :unix_user           => some_unix_user,
+      :remote_hostname     => some_host,
+      :remote_username     => some_git_remote_user,
       :private_key_content => some_private_key_content,
-      :public_key_content => some_public_key_content
+      :public_key_content  => some_public_key_content
     }
   }
 
