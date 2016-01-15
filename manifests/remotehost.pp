@@ -7,6 +7,7 @@ define sshuserconfig::remotehost(
   $remote_username,
   $private_key_content,
   $public_key_content,
+  $ensure              = 'present',
   $remote_port         = 22,
   $ssh_config_dir      = undef,
   $connect_timeout     = undef,
