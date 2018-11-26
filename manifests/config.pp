@@ -25,9 +25,10 @@ define sshuserconfig::config (
     'concat',
     $ssh_config_file,
     {
-      owner => $user,
-      group => $user,
-      mode  => '0600'
+      ensure => $ensure,
+      owner  => $user,
+      group  => $user,
+      mode   => '0600'
     }
   )
 
