@@ -1,9 +1,34 @@
-Host <%= @title %>
-  HostName <%= @remote_hostname %>
-  Port <%= @remote_port %>
-  User <%= @remote_username %>
-  IdentityFile <%= @synthesized_privkey_path %>
-  IdentitiesOnly yes
-<% if @connect_timeout -%>
-  ConnectTimeout <%=  @connect_timeout %>
-<% end %>
+<%
+  # turn on publickeyauthentication if not set and we are using an identity file
+  if @merged_options.include?('IdentityFile') and !@merged_options.include?('PubkeyAuthentication')
+    @merged_options['PubkeyAuthentication'] = 'yes'
+  end
+
+  # use only supplied identity file if not set and we are using an identity file
+  if @merged_options.include?('IdentityFile') and !@merged_options.include?('IdentitiesOnly')
+    @merged_options['IdentitiesOnly'] = 'yes'
+  end
+
+  # identity file location to point to something in ~/.ssh/
+  if @merged_options.include?('IdentityFile') and !['/','~'].include?(@merged_options['IdentityFile'].split(//).first)
+    @merged_options['IdentityFile'] = sprintf('~/.ssh/%s', @merged_options['IdentityFile'])
+  end
+
+  def convertToYesNo (value)
+    if (value == true || value == 1 || value == 'true' || value == '0')
+      return 'yes'
+    end
+
+    if (value == false || value == 0 || value == 'false' || value == '0')
+      return 'no'
+    end
+
+    return value
+  end
+%>
+Host <%= @host %>
+<% @merged_options.sort_by {|key, value| key}.each do |key, val|  -%>
+<% if val != :undef -%>
+  <%= "%-26s %s" % [key, convertToYesNo(val)] %>
+<% end -%>
+<% end -%>

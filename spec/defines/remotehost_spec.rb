@@ -27,23 +27,23 @@ describe 'sshuserconfig::remotehost' do
   let (:title) { some_hostalias }
   let (:params) {
     {
-      :unix_user => some_unix_user,
-      :remote_hostname => some_host,
-      :remote_username => some_git_remote_user,
+      :unix_user           => some_unix_user,
+      :remote_hostname     => some_host,
+      :remote_username     => some_git_remote_user,
       :private_key_content => some_private_key_content,
-      :public_key_content => some_public_key_content
+      :public_key_content  => some_public_key_content
     }
   }
 
   it 'should only use the given IdentityFile' do
     should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
-      .with_content(%r{^\s+IdentitiesOnly yes$})
+      .with_content(%r{^\s+IdentitiesOnly\s+yes$})
   end
 
   it 'should have a configurable port' do
     params[:remote_port] = 2022
     should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
-      .with_content(%r{^\s+Port 2022$})
+      .with_content(%r{^\s+Port\s+2022$})
   end
 
   context 'with special ssh configured ssh directory' do
@@ -62,7 +62,7 @@ describe 'sshuserconfig::remotehost' do
     it 'should have ssh connection timeout set to 10 seconds' do
       params[:connect_timeout] = 10
       should contain_concat__fragment("ssh_userconfig_#{some_unix_user}_#{some_hostalias}")\
-        .with_content(%r{^  ConnectTimeout 10$\n\n}u)
+        .with_content(%r{^\s+ConnectTimeout\s+10$}u)
     end
   end
 
@@ -123,33 +123,37 @@ EOF
 
           it 'should create a host config for a given unix user => hostalias/host/user/port/privkey/pubkey/' do
             should contain_concat__fragment("ssh_userconfig_#{test_data[:unix_user]}_#{test_data[:host_alias]}")\
-              .with_content(%r{Host #{test_data[:host_alias]}
-  HostName #{test_data[:remote_host]}
-  Port #{default_port}
-  User #{some_git_remote_user}
-  IdentityFile #{synthesized_privkey_path}
-  IdentitiesOnly yes\n\n}u)\
+              .with_content(%r{Host\s+#{test_data[:host_alias]}
+\s+HostName\s+#{test_data[:remote_host]}
+\s+IdentitiesOnly\s+yes
+\s+IdentityFile\s+#{synthesized_privkey_path}
+\s+Port\s+#{default_port}
+\s+PubkeyAuthentication\s+yes
+\s+User\s+#{some_git_remote_user}
+}u)\
               .with_target(ssh_config_file)
           end
 
           it 'should create the pubkey/privkey files for a given unix user => hostalias/host/user/port/privkey/pubkey key' do
-            should contain_file(synthesized_privkey_path).with_content(test_data[:private_key_content])
-            should contain_file("/home/#{some_unix_user}/.ssh/id_rsa_#{test_data[:host_alias]}.pub").with_content(test_data[:public_key_content])
-          end
-
-          it 'should set the appropriate rights for keypair' do
-            {
-              synthesized_privkey_path => test_data[:private_key_content],
-              synthesized_pubkey_path => test_data[:public_key_content]
-            }.each_pair do |path, content|
-              should contain_file(path) \
+            should contain_file("privateKey_#{test_data[:host_alias]}") \
                 .with ({
-                  :ensure   => 'present',
-                  :content  => content,
-                  :owner    => some_unix_user,
-                  :mode     => '0600'
+                        :ensure  => 'present',
+                        :content => test_data[:private_key_content],
+                        :path    => synthesized_privkey_path,
+                        :owner   => test_data[:unix_user],
+                        :group   => test_data[:unix_user],
+                        :mode    => '0600',
                 })
-            end
+
+            should contain_file("publicKey_#{test_data[:host_alias]}") \
+                .with ({
+                        :ensure  => 'present',
+                        :content => test_data[:public_key_content],
+                        :path    => synthesized_pubkey_path,
+                        :owner   => test_data[:unix_user],
+                        :group   => test_data[:unix_user],
+                        :mode    => '0600',
+                })
           end
         end
       end
