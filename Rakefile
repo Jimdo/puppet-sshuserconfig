@@ -117,7 +117,7 @@ namespace :test do
   end
 
   desc 'Run test:lint and test:spec'
-  task :travis => [:lint, :spec]
+  task :ci => [:lint, :spec]
 
   desc 'Run test:lint, test:spec, and test:integration'
   task :all => [:lint, :spec, :integration, :integration_teardown]

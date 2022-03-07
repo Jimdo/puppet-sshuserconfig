@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Ruby ${{ matrix.ruby-versions }}
+    runs-on: jimdex-default-runners
+    strategy:
+      matrix:
+        ruby-versions: [ '1.8.7', '1.9.3' ]
+
+    steps:
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-versions }}
+          bundler-cache: true
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Test
+        run: bundle exec rake test:ci

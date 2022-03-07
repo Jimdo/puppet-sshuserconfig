@@ -45,7 +45,7 @@ The module provides a couple of helpful [Rake] tasks (specified in `Rakefile`):
     rake test:integration_teardown  # Tear down VM used for integration tests
     rake test:lint                  # Check manifests with puppet-lint
     rake test:spec                  # Run RSpec examples
-    rake test:travis                # Run test:lint and test:spec
+    rake test:ci                    # Run test:lint and test:spec
     rake vagrant:destroy            # Destroy the VM
     rake vagrant:halt               # Shutdown the VM
     rake vagrant:provision          # Provision the VM using Puppet
@@ -103,19 +103,17 @@ Finally, if you no longer need the VM, you can destroy it:
 
 See Rake section above for a complete list of all Vagrant-specific tasks.
 
-### Travis CI
+### Github Actions
 
-The module includes a configuration for [Travis CI] that will run `rake test`
-each time changes are pushed to GitHub. Simply enable Travis for your GitHub
-repository to get free continuous integration.
+The module includes a configuration for Github Actions that will run `rake test`
+each time changes are pushed to GitHub.
 
 Implementing CI with other systems should be as simple as running the commands
-in `.travis.yml`.
+in `.github/workflows/ci.yml`.
 
 
 [Bundler]: http://gembundler.com
 [Rake]: http://rake.rubyforge.org
-[Travis CI]: https://travis-ci.org
 [Vagrant downloads page]: http://downloads.vagrantup.com/
 [Vagrant]: http://vagrantup.com
 [puppet-lint]: http://puppet-lint.com/
